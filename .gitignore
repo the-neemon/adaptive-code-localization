@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Benchmark data is CC BY-NC-ND and mirrors/outputs are large: never commit them.
+data/
