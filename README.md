@@ -7,13 +7,13 @@ interpretable per-issue router.
 
 ## Setup
 
-```bash
-uv venv .venv
-uv pip install --python .venv/bin/python -e '.[dev]'
-.venv/bin/python -m pytest
-```
+Any Python 3.10+ environment with the dependencies works (locally we use the
+`mtsbench` conda env; on ada, `totto`):
 
-Code targets Python 3.10+ (the cluster's compute nodes run 3.10).
+```bash
+pip install -e '.[dev]'          # add '.[dense]' on the GPU node for acl.dense
+python -m pytest
+```
 
 ## Data
 
@@ -49,3 +49,25 @@ python -m acl.inspect_task <instance_id> ...   # hand-check report
 
 See [docs/stage1.md](docs/stage1.md) for dataset counts, design decisions and the
 hand-check.
+
+## Pipeline (Stage 2)
+
+```bash
+python -m acl.linecounts   # GT file lengths at each pre-fix commit -> data/line_counts.json
+python -m acl.splits       # dev repos + leave-one-repo-out folds -> configs/splits.json
+# on an ada GPU node (see scripts/ada_dense.sbatch); copy data/dense/ back afterwards
+python -m acl.dense        # CodeRankEmbed scores per chunk -> data/dense/coderankembed/
+python -m acl.phase_a      # stop / dense / fusion on every task, B = 100/300/500 -> data/results/
+```
+
+| Module | What it does |
+|---|---|
+| `acl.evaluate` | Metrics at a line budget: ours (clipped GT, paper nDCG) and SWE-Explore's official ones |
+| `acl.swe_explore_eval` | SWE-Explore's `eval.py`, vendored verbatim (MIT) as the reference scorer |
+| `acl.linecounts` | Line counts of every ground-truth file, fetching the non-.py blobs |
+| `acl.dense` | Frozen CodeRankEmbed embeddings, deduplicated across snapshots |
+| `acl.actions` | Rankings for each action (stop, dense, RRF fusion); expand(e) comes in Stage 3 |
+| `acl.splits` | Repository-disjoint splits |
+| `acl.phase_a` | Runs actions on every task and scores them |
+
+See [docs/stage2.md](docs/stage2.md) and the draft [related work](docs/related_work.md).

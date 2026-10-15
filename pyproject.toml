@@ -7,6 +7,8 @@ dependencies = ["numpy", "scipy", "polars", "networkx"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+# Dense pass (acl.dense), run on a GPU node
+dense = ["torch", "sentence-transformers", "einops"]
 
 [build-system]
 requires = ["hatchling"]

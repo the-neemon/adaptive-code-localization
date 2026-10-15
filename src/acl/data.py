@@ -11,6 +11,7 @@ Usage: python -m acl.data  (reads data/raw/, writes data/tasks.jsonl)
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -44,10 +45,22 @@ def optional_regions(gt: dict) -> list[dict]:
     return out
 
 
+_DIFF_OLD = re.compile(r"^--- (?:a/(.+)|/dev/null)$", re.M)
+
+
+def patch_files(patch: str) -> list[str]:
+    """Files the developer patch changes that already exist at the pre-fix commit.
+
+    Files the patch creates (`--- /dev/null`) are left out: they are not in the
+    snapshot, so no retriever can return them.
+    """
+    return sorted({m.group(1) for m in _DIFF_OLD.finditer(patch) if m.group(1)})
+
+
 def build_tasks(bench_path: Path, raw: Path = RAW) -> list[dict]:
     meta = {}
     for fname in (f for files in SOURCES.values() for f in files):
-        df = pl.read_parquet(raw / fname, columns=["instance_id", "repo", "base_commit", "problem_statement"])
+        df = pl.read_parquet(raw / fname, columns=["instance_id", "repo", "base_commit", "problem_statement", "patch"])
         for row in df.iter_rows(named=True):
             # SWE-bench Pro ids carry an "instance_" prefix that SWE-Explore drops.
             meta.setdefault(row["instance_id"].removeprefix("instance_"), row)
@@ -70,6 +83,7 @@ def build_tasks(bench_path: Path, raw: Path = RAW) -> list[dict]:
             "optional_regions": optional_regions(gt),
             "modified_core_files": gt["modified_core_files"],
             "main_files": gt["main_files"],
+            "patch_files": patch_files(src["patch"]),
         })
     return tasks
 
