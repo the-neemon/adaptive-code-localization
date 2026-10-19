@@ -13,5 +13,6 @@
    "lam": 0.7
   }
  },
- "objective": "mean nDCG@300 on dev (56 tasks)"
+ "objective": "mean nDCG@300 on dev (56 tasks)",
+ "rrf_k": 100
 }

@@ -87,3 +87,17 @@ sbatch scripts/ada_phase_a.sbatch  # on ada: tune RRF k on dev, all actions x al
 | `acl.features` | cheap issue and seed signals for the router (no patch or ground truth) |
 
 See [docs/stage3.md](docs/stage3.md).
+
+## Phase A analysis and Tier 1 rules (Stage 4)
+
+```bash
+python -m acl.analysis           # gains vs seed with repo-bootstrap CIs, breakdowns, signature table
+python -m acl.router --per-fold  # Tier 1 rule procedure, fit on all issues and on each fold's training set
+```
+
+| Module | What it does |
+|---|---|
+| `acl.analysis` | Phase A summary (`data/results/phase_a_summary.md`) and signature table (`signature_table.csv`) |
+| `acl.router` | the fixed rule procedure: greedy ordered rule list over feature bins and bin pairs |
+
+See [docs/stage4.md](docs/stage4.md).
