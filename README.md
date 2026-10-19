@@ -66,8 +66,24 @@ python -m acl.phase_a      # stop / dense / fusion on every task, B = 100/300/50
 | `acl.swe_explore_eval` | SWE-Explore's `eval.py`, vendored verbatim (MIT) as the reference scorer |
 | `acl.linecounts` | Line counts of every ground-truth file, fetching the non-.py blobs |
 | `acl.dense` | Frozen CodeRankEmbed embeddings, deduplicated across snapshots |
-| `acl.actions` | Rankings for each action (stop, dense, RRF fusion); expand(e) comes in Stage 3 |
+| `acl.actions` | Rankings for each action (stop, dense, RRF fusion) |
 | `acl.splits` | Repository-disjoint splits |
 | `acl.phase_a` | Runs actions on every task and scores them |
 
 See [docs/stage2.md](docs/stage2.md) and the draft [related work](docs/related_work.md).
+
+## Phase A (Stage 3)
+
+```bash
+python -m acl.tune --what expand   # lambda and edge direction per edge group, dev only -> configs/tuned.json
+python -m acl.features             # post-seed router features -> data/results/features.jsonl
+sbatch scripts/ada_phase_a.sbatch  # on ada: tune RRF k on dev, all actions x all tasks, features
+```
+
+| Module | What it does |
+|---|---|
+| `acl.actions` | adds `expand_calls`, `expand_imports`, `expand_inherit` (proposal eq. 1) |
+| `acl.tune` | grid search on dev for the expansion and fusion hyperparameters |
+| `acl.features` | cheap issue and seed signals for the router (no patch or ground truth) |
+
+See [docs/stage3.md](docs/stage3.md).

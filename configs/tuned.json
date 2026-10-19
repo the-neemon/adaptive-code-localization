@@ -1,0 +1,17 @@
+{
+ "expand": {
+  "calls": {
+   "direction": "both",
+   "lam": 0.99
+  },
+  "imports": {
+   "direction": "both",
+   "lam": 0.99
+  },
+  "inherit": {
+   "direction": "out",
+   "lam": 0.7
+  }
+ },
+ "objective": "mean nDCG@300 on dev (56 tasks)"
+}

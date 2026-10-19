@@ -10,7 +10,10 @@ Actions whose inputs are missing for a task (e.g. no dense scores yet) are
 skipped and counted. As a consistency check against Stage 1, the `stop`
 regions must equal the seed regions stored in seed.json.
 
-Usage: python -m acl.phase_a [--actions stop dense fusion] [--ids ...] [--out PATH]
+Expand actions also record `n_visited`, the number of graph neighbours they
+scored (a cost measure). Hyperparameters come from configs/tuned.json (acl.tune).
+
+Usage: python -m acl.phase_a [--actions stop dense fusion expand_calls ...] [--ids ...] [--out PATH]
 """
 from __future__ import annotations
 
@@ -39,9 +42,11 @@ def load_chunks(d: Path) -> tuple[list[Chunk], np.ndarray]:
 
 
 def run_task(task: dict, counts: dict, blank: dict, split: str, names: list[str],
-             skipped: Counter) -> list[dict]:
+             skipped: Counter, tuned: dict) -> list[dict]:
     d = PREPARED / task["instance_id"]
     chunks, bm25 = load_chunks(d)
+    ids = [c.id for c in chunks]
+    edges = pl.read_parquet(d / "edges.parquet") if actions.NEEDS_EDGES & set(names) else None
     try:
         dense_scores = dense.load_scores(task["instance_id"], [c.id for c in chunks])
     except FileNotFoundError:
@@ -54,8 +59,15 @@ def run_task(task: dict, counts: dict, blank: dict, split: str, names: list[str]
             skipped[name] += 1
             continue
         t0 = time.time()
-        ranked = [chunks[i] for i in actions.ACTIONS[name](bm25=bm25, dense=dense_scores)]
+        ranked = [chunks[i] for i in actions.ACTIONS[name](bm25=bm25, dense=dense_scores, ids=ids,
+                                                            edges=edges, tuned=tuned)]
         secs = time.time() - t0
+        cost = {}
+        if name in actions.NEEDS_EDGES:
+            group = name.removeprefix("expand_")
+            cost["n_visited"] = len(actions.neighbour_boost(
+                ids, bm25, actions.order(bm25)[:actions.TOP_K], edges, group,
+                tuned["expand"][group]["direction"]))
         regions = {b: fill_budget(ranked, b) for b in BUDGETS}
         if name == "stop":
             for b in BUDGETS:
@@ -64,7 +76,7 @@ def run_task(task: dict, counts: dict, blank: dict, split: str, names: list[str]
         for b in BUDGETS:
             rows.append({
                 "instance_id": task["instance_id"], "repo": task["repo"], "source": task["source"],
-                "split": split, "action": name, "budget": b, "secs": round(secs, 3),
+                "split": split, "action": name, "budget": b, "secs": round(secs, 3), **cost,
                 "metrics": evaluate.score(gold, regions[b], b),
                 **({"regions": regions[b]} if b == max(BUDGETS) else {}),
             })
@@ -86,13 +98,15 @@ def main() -> None:
     blank = linecounts.load_blank()
     split_of = splits.split_of(splits.load())
     skipped: Counter = Counter()
+    tuned = actions.load_tuned()
+    print("tuned:", json.dumps(tuned))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     rows = []
     with args.out.open("w") as f:
         for t in tasks:
             for r in run_task(t, counts.get(t["instance_id"], {}), blank.get(t["instance_id"], {}),
                               split_of[t["instance_id"]],
-                              args.actions, skipped):
+                              args.actions, skipped, tuned):
                 f.write(json.dumps(r) + "\n")
                 rows.append(r)
     print(f"{len(tasks)} prepared tasks, {len(rows)} rows -> {args.out}; skipped {dict(skipped)}")
