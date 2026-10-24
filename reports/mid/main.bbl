@@ -1,0 +1,170 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Amati et~al.(2004)Amati, Carpineto, and Romano}]{amati2004query}
+Giambattista Amati, Claudio Carpineto, and Giovanni Romano. 2004.
+\newblock Query difficulty, robustness, and selective application of query
+  expansion.
+\newblock In \emph{Advances in Information Retrieval (ECIR)}.
+
+\bibitem[{Chen et~al.(2025)Chen, Tang, Deng, Wu, Wu, Jiang, Prasanna, Cohan,
+  and Wang}]{chen2025locagent}
+Zhaoling Chen, Xiangru Tang, Gangda Deng, Fang Wu, Jialong Wu, Zhiwei Jiang,
+  Viktor Prasanna, Arman Cohan, and Xingyao Wang. 2025.
+\newblock \href {https://aclanthology.org/2025.acl-long.426/} {{LocAgent}:
+  Graph-guided {LLM} agents for code localization}.
+\newblock In \emph{Proceedings of the 63rd Annual Meeting of the Association
+  for Computational Linguistics (ACL)}.
+
+\bibitem[{Cormack et~al.(2009)Cormack, Clarke, and Buettcher}]{cormack2009rrf}
+Gordon~V. Cormack, Charles L.~A. Clarke, and Stefan Buettcher. 2009.
+\newblock Reciprocal rank fusion outperforms {Condorcet} and individual rank
+  learning methods.
+\newblock In \emph{Proceedings of the 32nd International ACM SIGIR Conference
+  on Research and Development in Information Retrieval}, pages 758--759.
+
+\bibitem[{Cronen-Townsend et~al.(2002)Cronen-Townsend, Zhou, and
+  Croft}]{cronen2002predicting}
+Steve Cronen-Townsend, Yun Zhou, and W.~Bruce Croft. 2002.
+\newblock Predicting query performance.
+\newblock In \emph{Proceedings of the 25th Annual International ACM SIGIR
+  Conference on Research and Development in Information Retrieval}.
+
+\bibitem[{Cronen-Townsend et~al.(2004)Cronen-Townsend, Zhou, and
+  Croft}]{cronen2004selective}
+Steve Cronen-Townsend, Yun Zhou, and W.~Bruce Croft. 2004.
+\newblock A framework for selective query expansion.
+\newblock In \emph{Proceedings of the 13th ACM International Conference on
+  Information and Knowledge Management (CIKM)}.
+
+\bibitem[{Fehr et~al.(2025)}]{fehr2025coret}
+Fabian Fehr et~al. 2025.
+\newblock \href {https://aclanthology.org/2025.acl-short.62/} {{CoRet}:
+  Improved retriever for code editing}.
+\newblock In \emph{Proceedings of the 63rd Annual Meeting of the Association
+  for Computational Linguistics (Volume 2: Short Papers)}.
+
+\bibitem[{J{\"a}rvelin and Kek{\"a}l{\"a}inen(2002)}]{jarvelin2002ndcg}
+Kalervo J{\"a}rvelin and Jaana Kek{\"a}l{\"a}inen. 2002.
+\newblock Cumulated gain-based evaluation of {IR} techniques.
+\newblock \emph{ACM Transactions on Information Systems}.
+
+\bibitem[{Jeong et~al.(2024)Jeong, Baek, Cho, Hwang, and
+  Park}]{jeong2024adaptiverag}
+Soyeong Jeong, Jinheon Baek, Sukmin Cho, Sung~Ju Hwang, and Jong~C. Park. 2024.
+\newblock Adaptive-{RAG}: Learning to adapt retrieval-augmented large language
+  models through question complexity.
+\newblock In \emph{Proceedings of NAACL}.
+
+\bibitem[{Jiang et~al.(2025)Jiang, Ren, Yan, Jiang, Li, and
+  Liu}]{jiang2025cosil}
+Zhonghao Jiang, Xiaoxue Ren, Meng Yan, Wei Jiang, Yong Li, and Zhongxin Liu.
+  2025.
+\newblock {CoSIL}: Software issue localization via {LLM}-driven code repository
+  graph searching.
+\newblock \emph{arXiv preprint arXiv:2503.22424}.
+
+\bibitem[{Jimenez et~al.(2024)Jimenez, Yang, Wettig, Yao, Pei, Press, and
+  Narasimhan}]{jimenez2024swebench}
+Carlos~E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
+  Press, and Karthik Narasimhan. 2024.
+\newblock {SWE-bench}: Can language models resolve real-world {GitHub} issues?
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}.
+
+\bibitem[{Liu et~al.(2024)}]{liu2024codexgraph}
+Xiangyan Liu et~al. 2024.
+\newblock {CodexGraph}: Bridging large language models and code repositories
+  via code graph databases.
+\newblock \emph{arXiv preprint arXiv:2408.03910}.
+
+\bibitem[{{OpenAI}(2024)}]{openai2024verified}
+{OpenAI}. 2024.
+\newblock Introducing {SWE-bench Verified}.
+\newblock \url{https://openai.com/index/introducing-swe-bench-verified/}.
+
+\bibitem[{Ouyang et~al.(2024)}]{ouyang2024repograph}
+Siru Ouyang et~al. 2024.
+\newblock {RepoGraph}: Enhancing {AI} software engineering with
+  repository-level code graph.
+\newblock \emph{arXiv preprint arXiv:2410.14684}.
+
+\bibitem[{Reddy et~al.(2026)}]{reddy2026swerank}
+Revanth~Gangi Reddy et~al. 2026.
+\newblock \href
+  {https://proceedings.iclr.cc/paper_files/paper/2026/hash/7f6901ebab786e43b21530328fc989ca-Abstract-Conference.html}
+  {{SWERank}: Software issue localization with code ranking}.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}.
+
+\bibitem[{Robertson and Zaragoza(2009)}]{robertson2009bm25}
+Stephen Robertson and Hugo Zaragoza. 2009.
+\newblock The probabilistic relevance framework: {BM25} and beyond.
+\newblock \emph{Foundations and Trends in Information Retrieval},
+  3(4):333--389.
+
+\bibitem[{Shi et~al.(2026)Shi, Gao, and Gao}]{shi2026aircoder}
+Chuanqi Shi, Miao Gao, and Zhiqiang Gao. 2026.
+\newblock {AIRCoder}: Adaptive integration of multi-dimensional retrieval for
+  repository-level code completion.
+\newblock In \emph{Proceedings of the 64th Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pages 25458--25470.
+
+\bibitem[{Shtok et~al.(2012)Shtok, Kurland, Carmel, Raiber, and
+  Markovits}]{shtok2012nqc}
+Anna Shtok, Oren Kurland, David Carmel, Fiana Raiber, and Gad Markovits. 2012.
+\newblock Predicting query performance by query-drift estimation.
+\newblock \emph{ACM Transactions on Information Systems}.
+
+\bibitem[{Son et~al.(2026)Son, Yoon, Tang, Wang, Wolf, and
+  Bogunovic}]{son2026swerouter}
+Seongho Son, Sangwoong Yoon, Jiahua Tang, Shuhan Wang, Lorenz Wolf, and Ilija
+  Bogunovic. 2026.
+\newblock {SWE-Router}: Routing in multi-turn agentic software engineering
+  tasks.
+\newblock In \emph{The 5th Deep Learning for Code Workshop at ICML}.
+\newblock ArXiv:2607.00053.
+
+\bibitem[{Suresh et~al.(2025)Suresh, Reddy, Xu, Nussbaum, Mulyar, Duderstadt,
+  and Ji}]{suresh2025cornstack}
+Tarun Suresh, Revanth~Gangi Reddy, Yifei Xu, Zach Nussbaum, Andriy Mulyar,
+  Brandon Duderstadt, and Heng Ji. 2025.
+\newblock {CoRNStack}: High-quality contrastive data for better code retrieval
+  and reranking.
+\newblock \emph{arXiv preprint arXiv:2412.01007}.
+
+\bibitem[{Wang et~al.(2026)Wang, Xu, Li, Gao, Xie, Sun, and
+  Chen}]{wang2026repomemory}
+Boshi Wang, Weijian Xu, Yunsheng Li, Mei Gao, Yujia Xie, Huan Sun, and Dongdong
+  Chen. 2026.
+\newblock Improving code localization with repository memory.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}.
+\newblock ArXiv:2510.01003.
+
+\bibitem[{Xia et~al.(2024)Xia, Deng, Dunn, and Zhang}]{xia2024agentless}
+Chunqiu~Steven Xia, Yinlin Deng, Soren Dunn, and Lingming Zhang. 2024.
+\newblock Agentless: Demystifying {LLM}-based software engineering agents.
+\newblock \emph{arXiv preprint arXiv:2407.01489}.
+
+\bibitem[{Yu et~al.(2025)}]{yu2025orcaloca}
+Zhongming Yu et~al. 2025.
+\newblock \href {https://proceedings.mlr.press/v267/yu25x.html} {{OrcaLoca}: An
+  {LLM} agent framework for software issue localization}.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine
+  Learning (ICML)}, volume 267 of \emph{PMLR}.
+
+\bibitem[{Zhang et~al.(2026)Zhang, Wang, Liang, Shi, Zeng, Wang, He, Xu, Ye,
+  Cai, and Gu}]{zhang2026sweexplore}
+Shaoqiu Zhang, Yuhang Wang, Jialiang Liang, Yuling Shi, Wenhao Zeng, Maoquan
+  Wang, Shilin He, Ningyuan Xu, Siyu Ye, Kai Cai, and Xiaodong Gu. 2026.
+\newblock {SWE-Explore}: Benchmarking how coding agents explore repositories.
+\newblock \emph{arXiv preprint arXiv:2606.07297}.
+
+\bibitem[{Zhang et~al.(2024)Zhang, Ruan, Fan, and
+  Roychoudhury}]{zhang2024autocoderover}
+Yuntong Zhang, Haifeng Ruan, Zhiyu Fan, and Abhik Roychoudhury. 2024.
+\newblock {AutoCodeRover}: Autonomous program improvement.
+\newblock \emph{arXiv preprint arXiv:2404.05427}.
+
+\end{thebibliography}

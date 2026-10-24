@@ -1,0 +1,115 @@
+\relax 
+\bibstyle{acl_natbib}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{robertson2009bm25}
+\citation{chen2025locagent}
+\citation{jiang2025cosil}
+\citation{yu2025orcaloca}
+\citation{chen2025locagent}
+\citation{jiang2025cosil}
+\citation{yu2025orcaloca}
+\citation{zhang2024autocoderover}
+\citation{xia2024agentless}
+\citation{ouyang2024repograph}
+\citation{liu2024codexgraph}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Status.}{1}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Study Design (Recap)}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Related Work (Updated)}{1}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Graph-based and agentic localization.}{1}{section*.3}\protected@file@percent }
+\citation{reddy2026swerank}
+\citation{fehr2025coret}
+\citation{suresh2025cornstack}
+\citation{amati2004query}
+\citation{cronen2004selective}
+\citation{cronen2002predicting}
+\citation{shtok2012nqc}
+\citation{jeong2024adaptiverag}
+\citation{shi2026aircoder}
+\citation{son2026swerouter}
+\citation{wang2026repomemory}
+\citation{zhang2026sweexplore}
+\citation{jarvelin2002ndcg}
+\citation{zhang2026sweexplore}
+\citation{jimenez2024swebench,openai2024verified}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Overview (unchanged from the proposal). Phase~A runs \emph  {every} action on every issue to measure its gain over the seed; Phase~B selects one action per issue in advance from cheap features.}}{2}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:overview}{{1}{2}{Overview (unchanged from the proposal). Phase~A runs \emph {every} action on every issue to measure its gain over the seed; Phase~B selects one action per issue in advance from cheap features}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Retrievers.}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Selective expansion and query performance prediction.}{2}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Adaptive routing.}{2}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Evaluation.}{2}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}What We Built (Stages 1--3)}{2}{section.4}\protected@file@percent }
+\newlabel{sec:built}{{4}{2}{What We Built (Stages 1--3)}{section.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Data.}{2}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Chunks, seed and graph.}{2}{section*.9}\protected@file@percent }
+\citation{suresh2025cornstack}
+\citation{cormack2009rrf}
+\@writefile{toc}{\contentsline {paragraph}{Evaluation harness.}{3}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dense retrieval and fusion.}{3}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Graph expansion.}{3}{section*.12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Expansion settings tuned on the 56 dev issues (grid $\lambda \in \{0.5,\dots  ,0.99\}$ $\times $ direction); nDCG@300 and gain over \texttt  {stop} (0.119) on dev.}}{3}{table.caption.13}\protected@file@percent }
+\newlabel{tab:tuning}{{1}{3}{Expansion settings tuned on the 56 dev issues (grid $\lambda \in \{0.5,\dots ,0.99\}$ $\times $ direction); nDCG@300 and gain over \action {stop} (0.119) on dev}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {paragraph}{Splits.}{3}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-seed features.}{3}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results So Far (Phase A and Stage 4)}{3}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{5}{3}{Results So Far (Phase A and Stage 4)}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Fixed actions and the oracle}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Phase~A means over 500 issues (file recall: the 410 SWE-bench Verified issues, against the files the developer patch edits). Perfect = every core region touched; Noise = share of returned regions touching neither core nor optional context (lower is better). The best fixed action depends on the budget: \texttt  {expand(calls)} at $B=100$, \texttt  {fusion} at 300 and 500.}}{4}{table.caption.16}\protected@file@percent }
+\newlabel{tab:main}{{2}{4}{Phase~A means over 500 issues (file recall: the 410 SWE-bench Verified issues, against the files the developer patch edits). Perfect = every core region touched; Noise = share of returned regions touching neither core nor optional context (lower is better). The best fixed action depends on the budget: \action {expand(calls)} at $B=100$, \action {fusion} at 300 and 500}{table.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Mean nDCG@300 of each fixed action and of the per-issue oracle. The wide intervals reflect how much the absolute level varies between repositories; differences between actions are paired per issue and much tighter (see the text).}}{4}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:fixed}{{2}{4}{Mean nDCG@300 of each fixed action and of the per-issue oracle. The wide intervals reflect how much the absolute level varies between repositories; differences between actions are paired per issue and much tighter (see the text)}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Gains are issue-dependent}{4}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Share of issues each action helps or hurts compared with the seed (nDCG@300, 500 issues).}}{4}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:helps}{{3}{4}{Share of issues each action helps or hurts compared with the seed (nDCG@300, 500 issues)}{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}The proposal's expectations}{4}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Signature table and the top-hit degree}{4}{subsection.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The proposal's expectations, checked one feature at a time (gain over \texttt  {stop}, 95\% repository-bootstrap intervals).}}{5}{table.caption.19}\protected@file@percent }
+\newlabel{tab:hyp}{{3}{5}{The proposal's expectations, checked one feature at a time (gain over \action {stop}, 95\% repository-bootstrap intervals)}{table.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Gain over the seed by the graph degree of the top seed hit (thirds of the 500 issues), with 95\% repository-bootstrap intervals.}}{5}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:degree}{{4}{5}{Gain over the seed by the graph degree of the top seed hit (thirds of the 500 issues), with 95\% repository-bootstrap intervals}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Tier 1 rules}{5}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Observations}{5}{section.6}\protected@file@percent }
+\newlabel{sec:obs}{{6}{5}{Observations}{section.6}{}}
+\bibdata{references}
+\bibcite{amati2004query}{{1}{2004}{{Amati et~al.}}{{Amati, Carpineto, and Romano}}}
+\bibcite{chen2025locagent}{{2}{2025}{{Chen et~al.}}{{Chen, Tang, Deng, Wu, Wu, Jiang, Prasanna, Cohan, and Wang}}}
+\bibcite{cormack2009rrf}{{3}{2009}{{Cormack et~al.}}{{Cormack, Clarke, and Buettcher}}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Rules found by the procedure on all 500 issues (descriptive). Gain is nDCG@300 over the default (fusion) on the issues the rule covers. $^\ast $Selected as \texttt  {expand(inherit)}, which is in effect \texttt  {stop}.}}{6}{table.caption.21}\protected@file@percent }
+\newlabel{tab:rules}{{4}{6}{Rules found by the procedure on all 500 issues (descriptive). Gain is nDCG@300 over the default (fusion) on the issues the rule covers. $^\ast $Selected as \action {expand(inherit)}, which is in effect \action {stop}}{table.caption.21}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Changes relative to the proposal.}}{6}{table.caption.22}\protected@file@percent }
+\newlabel{tab:dev}{{5}{6}{Changes relative to the proposal}{table.caption.22}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Departures from the Proposal}{6}{section.7}\protected@file@percent }
+\newlabel{sec:dev}{{7}{6}{Departures from the Proposal}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}What Is Left}{6}{section.8}\protected@file@percent }
+\newlabel{sec:left}{{8}{6}{What Is Left}{section.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Stage 5: held-out evaluation.}{6}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Tier 2 (stretch).}{6}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stages 6 and 7.}{6}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Risks and limitations.}{6}{section*.27}\protected@file@percent }
+\bibcite{cronen2002predicting}{{4}{2002}{{Cronen-Townsend et~al.}}{{Cronen-Townsend, Zhou, and Croft}}}
+\bibcite{cronen2004selective}{{5}{2004}{{Cronen-Townsend et~al.}}{{Cronen-Townsend, Zhou, and Croft}}}
+\bibcite{fehr2025coret}{{6}{2025}{{Fehr et~al.}}{{}}}
+\bibcite{jarvelin2002ndcg}{{7}{2002}{{J{\"a}rvelin and Kek{\"a}l{\"a}inen}}{{}}}
+\bibcite{jeong2024adaptiverag}{{8}{2024}{{Jeong et~al.}}{{Jeong, Baek, Cho, Hwang, and Park}}}
+\bibcite{jiang2025cosil}{{9}{2025}{{Jiang et~al.}}{{Jiang, Ren, Yan, Jiang, Li, and Liu}}}
+\bibcite{jimenez2024swebench}{{10}{2024}{{Jimenez et~al.}}{{Jimenez, Yang, Wettig, Yao, Pei, Press, and Narasimhan}}}
+\bibcite{liu2024codexgraph}{{11}{2024}{{Liu et~al.}}{{}}}
+\bibcite{openai2024verified}{{12}{2024}{{OpenAI}}{{}}}
+\bibcite{ouyang2024repograph}{{13}{2024}{{Ouyang et~al.}}{{}}}
+\bibcite{reddy2026swerank}{{14}{2026}{{Reddy et~al.}}{{}}}
+\bibcite{robertson2009bm25}{{15}{2009}{{Robertson and Zaragoza}}{{}}}
+\bibcite{shi2026aircoder}{{16}{2026}{{Shi et~al.}}{{Shi, Gao, and Gao}}}
+\bibcite{shtok2012nqc}{{17}{2012}{{Shtok et~al.}}{{Shtok, Kurland, Carmel, Raiber, and Markovits}}}
+\bibcite{son2026swerouter}{{18}{2026}{{Son et~al.}}{{Son, Yoon, Tang, Wang, Wolf, and Bogunovic}}}
+\bibcite{suresh2025cornstack}{{19}{2025}{{Suresh et~al.}}{{Suresh, Reddy, Xu, Nussbaum, Mulyar, Duderstadt, and Ji}}}
+\bibcite{wang2026repomemory}{{20}{2026}{{Wang et~al.}}{{Wang, Xu, Li, Gao, Xie, Sun, and Chen}}}
+\bibcite{xia2024agentless}{{21}{2024}{{Xia et~al.}}{{Xia, Deng, Dunn, and Zhang}}}
+\bibcite{yu2025orcaloca}{{22}{2025}{{Yu et~al.}}{{}}}
+\bibcite{zhang2026sweexplore}{{23}{2026}{{Zhang et~al.}}{{Zhang, Wang, Liang, Shi, Zeng, Wang, He, Xu, Ye, Cai, and Gu}}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Progress against the proposal's timeline.}}{7}{table.caption.23}\protected@file@percent }
+\newlabel{tab:timeline}{{6}{7}{Progress against the proposal's timeline}{table.caption.23}{}}
+\bibcite{zhang2024autocoderover}{{24}{2024}{{Zhang et~al.}}{{Zhang, Ruan, Fan, and Roychoudhury}}}
+\gdef \@abspage@last{8}
