@@ -13,7 +13,10 @@ regions must equal the seed regions stored in seed.json.
 Expand actions also record `n_visited`, the number of graph neighbours they
 scored (a cost measure). Hyperparameters come from configs/tuned.json (acl.tune).
 
-Usage: python -m acl.phase_a [--actions stop dense fusion expand_calls ...] [--ids ...] [--out PATH]
+Tasks outside configs/splits.json (e.g. the extra SWE-bench Verified issues,
+acl.data --verified-extra) get split "extra".
+
+Usage: python -m acl.phase_a [--tasks PATH] [--actions stop dense fusion expand_calls ...] [--ids ...] [--out PATH]
 """
 from __future__ import annotations
 
@@ -85,12 +88,13 @@ def run_task(task: dict, counts: dict, blank: dict, split: str, names: list[str]
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tasks", default="data/tasks.jsonl")
     ap.add_argument("--actions", nargs="*", default=list(actions.ACTIONS))
     ap.add_argument("--ids", nargs="*")
     ap.add_argument("--out", type=Path, default=OUT)
     args = ap.parse_args()
 
-    tasks = [json.loads(line) for line in open("data/tasks.jsonl")]
+    tasks = [json.loads(line) for line in open(args.tasks)]
     if args.ids:
         tasks = [t for t in tasks if t["instance_id"] in set(args.ids)]
     tasks = [t for t in tasks if (PREPARED / t["instance_id"] / "seed.json").exists()]
@@ -105,7 +109,7 @@ def main() -> None:
     with args.out.open("w") as f:
         for t in tasks:
             for r in run_task(t, counts.get(t["instance_id"], {}), blank.get(t["instance_id"], {}),
-                              split_of[t["instance_id"]],
+                              split_of.get(t["instance_id"], "extra"),
                               args.actions, skipped, tuned):
                 f.write(json.dumps(r) + "\n")
                 rows.append(r)

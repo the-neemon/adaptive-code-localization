@@ -6,7 +6,7 @@ files shared between snapshots are downloaded once. Full histories are
 several GB and download too slowly on campus. A task's snapshot is then read
 straight from git objects, so no per-task checkout is ever written to disk.
 
-Usage: python -m acl.snapshot [repo ...]  (fetches commits listed in data/tasks.jsonl)
+Usage: python -m acl.snapshot [--tasks PATH] [repo ...]  (fetches the commits listed in the task file)
 """
 from __future__ import annotations
 
@@ -39,7 +39,12 @@ def fetch_commits(mirrors: Path, repo: str, commits: list[str]) -> Path:
     path = mirror_path(mirrors, repo)
     if not path.exists():
         subprocess.run(["git", "init", "-q", "--bare", str(path)], check=True)
-        _git(path, "remote", "add", "origin", f"https://github.com/{repo}.git")
+    # Mirrors made by an early version of this function have no origin URL
+    # (requests, flask, seaborn), so (re)write it rather than only at creation.
+    # Not `remote get-url`: with no URL set it prints the remote's name and succeeds.
+    if subprocess.run(["git", "-C", str(path), "config", "--get", "remote.origin.url"],
+                      capture_output=True).returncode:
+        _git(path, "config", "remote.origin.url", f"https://github.com/{repo}.git")
         # Mark origin as a promisor so git tolerates the blobs we never fetch.
         _git(path, "config", "remote.origin.promisor", "true")
         _git(path, "config", "remote.origin.partialclonefilter", "blob:none")
@@ -102,9 +107,13 @@ def read_python_files(mirror: Path, commit: str) -> dict[str, str]:
     return files
 
 
-def main(repos: list[str]) -> None:
+def main(argv: list[str]) -> None:
+    tasks_path = "data/tasks.jsonl"
+    if argv[:1] == ["--tasks"]:
+        tasks_path, argv = argv[1], argv[2:]
+    repos = argv
     by_repo: dict[str, set[str]] = defaultdict(set)
-    for line in open("data/tasks.jsonl"):
+    for line in open(tasks_path):
         t = json.loads(line)
         by_repo[t["repo"]].add(t["base_commit"])
     for repo in repos or sorted(by_repo, key=lambda r: len(by_repo[r])):

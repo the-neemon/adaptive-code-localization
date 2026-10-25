@@ -101,3 +101,18 @@ python -m acl.router --per-fold  # Tier 1 rule procedure, fit on all issues and 
 | `acl.router` | the fixed rule procedure: greedy ordered rule list over feature bins and bin pairs |
 
 See [docs/stage4.md](docs/stage4.md).
+
+## Held-out evaluation (Stage 5)
+
+```bash
+python -m acl.data --verified-extra   # the 90 SWE-bench Verified issues outside the study set
+sbatch scripts/ada_stage5.sbatch      # on ada: those 90 end to end, then acl.heldout
+python -m acl.heldout                 # router per fold on held-out repos -> data/results/heldout.md
+```
+
+| Module | What it does |
+|---|---|
+| `acl.heldout` | fits the rule procedure per fold, routes the held-out repository, GapClosed with repo-bootstrap CIs, cost, SWE-bench Verified file recall |
+
+`acl.snapshot`, `acl.prepare`, `acl.dense`, `acl.phase_a` and `acl.features` take
+`--tasks PATH` to run on another task file. See [docs/stage5.md](docs/stage5.md).

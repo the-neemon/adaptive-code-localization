@@ -8,7 +8,7 @@ Writes data/prepared/<instance_id>/
 Chunk text is not stored; re-chunking a snapshot from the mirror takes well
 under a second and is deterministic.
 
-Usage: python -m acl.prepare [--workers N] [--limit N] [--repo owner/name] [--ids id ...]
+Usage: python -m acl.prepare [--tasks PATH] [--workers N] [--limit N] [--repo owner/name] [--ids id ...]
 """
 from __future__ import annotations
 
@@ -111,13 +111,14 @@ def prepare(task: dict, out_root: Path = OUT, mirrors: Path = snapshot.MIRRORS) 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tasks", default="data/tasks.jsonl")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--limit", type=int)
     ap.add_argument("--repo", action="append")
     ap.add_argument("--ids", nargs="*")
     args = ap.parse_args()
 
-    tasks = [json.loads(line) for line in open("data/tasks.jsonl")]
+    tasks = [json.loads(line) for line in open(args.tasks)]
     if args.repo:
         tasks = [t for t in tasks if t["repo"] in args.repo]
     if args.ids:

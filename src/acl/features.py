@@ -20,10 +20,11 @@ truth, so the features cannot leak the answer.
 | bm25_dense_overlap | share of the BM25 top-k also in the dense top-k (None without dense) |
 | source | "verified" or "pro" |
 
-Usage: python -m acl.features  (writes data/results/features.jsonl)
+Usage: python -m acl.features [--tasks PATH] [--out PATH]  (default: data/results/features.jsonl)
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -107,13 +108,18 @@ def task_features(task: dict) -> dict:
 
 
 def main() -> None:
-    tasks = [json.loads(line) for line in open("data/tasks.jsonl")]
-    OUT.parent.mkdir(parents=True, exist_ok=True)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tasks", default="data/tasks.jsonl")
+    ap.add_argument("--out", type=Path, default=OUT)
+    args = ap.parse_args()
+    tasks = [json.loads(line) for line in open(args.tasks)]
+    out = args.out
+    out.parent.mkdir(parents=True, exist_ok=True)
     rows = [task_features(t) for t in tasks if (PREPARED / t["instance_id"] / "seed.json").exists()]
-    with OUT.open("w") as f:
+    with out.open("w") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")
-    print(f"{len(rows)} tasks -> {OUT}")
+    print(f"{len(rows)} tasks -> {out}")
     for key in [k for k in rows[0] if k not in ("instance_id", "repo", "source")]:
         vals = [r[key] for r in rows if r[key] is not None]
         if vals:

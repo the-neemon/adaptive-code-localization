@@ -153,6 +153,7 @@ def load_model(device: str):
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tasks", default="data/tasks.jsonl")
     ap.add_argument("--repo", action="append")
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--device", default="cuda")
@@ -161,7 +162,7 @@ def main() -> None:
     model = load_model(args.device)
 
     by_repo: dict[str, list[dict]] = defaultdict(list)
-    for line in open("data/tasks.jsonl"):
+    for line in open(args.tasks):
         t = json.loads(line)
         by_repo[t["repo"]].append(t)
     for repo in args.repo or sorted(by_repo, key=lambda r: len(by_repo[r])):

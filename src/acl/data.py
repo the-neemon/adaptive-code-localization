@@ -6,10 +6,20 @@ on instance_id. (SWE-bench Multilingual has no Python tasks.) 21 Pro tasks were
 dropped from Pro's current public split and survive only in its `v1` config,
 so that file is read as a fallback.
 
-Usage: python -m acl.data  (reads data/raw/, writes data/tasks.jsonl)
+The study set is fixed at these 500 tasks. For the secondary benchmark
+(SWE-bench Verified, scored at file level against the developer patch, as the
+proposal says), `--verified-extra` writes the 90 Verified issues outside it:
+49 that SWE-Explore does not include and 41 that the Python filter above drops
+because agents also edited a non-.py file (mostly pyproject.toml), although
+the developer patch is Python. They have no SWE-Explore ground truth, only
+`patch_files`.
+
+Usage: python -m acl.data [--verified-extra]
+  (reads data/raw/, writes data/tasks.jsonl or data/tasks_verified_extra.jsonl)
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from collections import Counter
@@ -88,13 +98,36 @@ def build_tasks(bench_path: Path, raw: Path = RAW) -> list[dict]:
     return tasks
 
 
+def build_verified_extra(bench_path: Path, study: list[dict], raw: Path = RAW) -> list[dict]:
+    in_study = {t["instance_id"] for t in study}
+    in_bench = {json.loads(line)["instance_id"] for line in bench_path.open()}
+    df = pl.read_parquet(raw / SOURCES["verified"][0],
+                         columns=["instance_id", "repo", "base_commit", "problem_statement", "patch"])
+    return [{
+        "instance_id": row["instance_id"], "source": "verified", "repo": row["repo"],
+        "base_commit": row["base_commit"], "problem_statement": row["problem_statement"],
+        "extra_reason": "python_filter" if row["instance_id"] in in_bench else "not_in_swe_explore",
+        # No SWE-Explore ground truth: only the file-level patch metric applies.
+        "core_files": [], "core_regions": [], "optional_regions": [],
+        "modified_core_files": [], "main_files": [],
+        "patch_files": patch_files(row["patch"]),
+    } for row in df.iter_rows(named=True) if row["instance_id"] not in in_study]
+
+
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--verified-extra", action="store_true")
+    args = ap.parse_args()
     tasks = build_tasks(RAW / "bench.final.public.jsonl")
     out = Path("data/tasks.jsonl")
+    if args.verified_extra:
+        tasks = build_verified_extra(RAW / "bench.final.public.jsonl", tasks)
+        out = Path("data/tasks_verified_extra.jsonl")
+        print("by reason:", dict(Counter(t["extra_reason"] for t in tasks)))
     with out.open("w") as f:
         for t in tasks:
             f.write(json.dumps(t) + "\n")
-    print(f"{len(tasks)} Python tasks -> {out}")
+    print(f"{len(tasks)} tasks -> {out}")
     print("by source:", dict(Counter(t["source"] for t in tasks)))
     for repo, n in Counter(t["repo"] for t in tasks).most_common():
         print(f"  {n:4d}  {repo}")
