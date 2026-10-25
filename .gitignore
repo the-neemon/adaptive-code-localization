@@ -4,4 +4,9 @@ __pycache__/
 .pytest_cache/
 # Benchmark data is CC BY-NC-ND and mirrors/outputs are large: never commit them.
 data/
-proposal.pdf
+proposal.pdf# LaTeX build files
+reports/**/*.aux
+reports/**/*.log
+reports/**/*.bbl
+reports/**/*.blg
+reports/**/*.out

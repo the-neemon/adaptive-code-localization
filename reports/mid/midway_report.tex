@@ -113,14 +113,4 @@ cost. The router with up to 5 rules is the main result. The same router cut
 after its first rule is a secondary analysis, declared now. Tier 2 (a small
 classifier) only if Stage 5 finishes early.
 
-\section{Where feedback would help}
-\begin{enumerate}
-\item Is nDCG with the paper's ideal acceptable as the primary metric, given
-that the ground truth is mostly whole files?
-\item Only one of the router's rules is stable across folds. Is reporting the
-5-rule router as the main result, with the 1-rule router as a declared
-secondary analysis, a reasonable way to handle the unstable rules?
-\item If the router closes little of the gap on held-out repositories, is a
-careful negative result an acceptable outcome?
-\end{enumerate}
 \end{document}
