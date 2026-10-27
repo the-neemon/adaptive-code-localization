@@ -1,8 +1,8 @@
 # Stage 5: the Tier 1 router on held-out repositories
 
-Status as of 2026-10-25: code and protocol done and tested, run pending on ada
-(`scripts/ada_stage5.sbatch`). This file fixes the protocol before any
-held-out result exists. Results go below when the job returns.
+Status as of 2026-10-27: done. The protocol below was fixed on 2026-10-25,
+before any held-out result existed. The run (`scripts/ada_stage5.sbatch`)
+happened on ada on 2026-10-26, and its results are at the end.
 
 ## Protocol (`acl.heldout`)
 
@@ -67,4 +67,80 @@ per-repository embedding caches, so it only embeds chunks that changed.
 
 ## Results
 
-Pending.
+Run on ada on 2026-10-26 (job 40536, gnode061, RTX 2080 Ti, about 1.5 h, no
+errors). Full output: `data/results/heldout.md`.
+
+Checks before reading the numbers: the extra-issue task list is identical to
+the local one; all 1,080 stop and expand result rows for the 90 extra issues
+equal an independent local run exactly; held-out stop and fusion means equal
+Stage 4's (.1786, .1872). On ada the project folder is not a git clone, so
+the code was copied with scp (its output format matches commit a2660c0), and
+`data/raw/` was copied over for `acl.data --verified-extra`. No router
+setting was changed.
+
+### Main result: nDCG@300, 444 held-out issues
+
+| system | mean |
+|---|---|
+| stop (BM25 seed) | .1786 |
+| fixed (fusion in every fold) | .1872 |
+| router (up to 5 rules) | .1908 |
+| router_1 (first rule only) | .1927 |
+| oracle | .2618 |
+
+| | gain vs fixed | 95% CI | GapClosed | 95% CI | helps / hurts |
+|---|---|---|---|---|---|
+| router | +.0035 | [-.0041, +.0086] | +.047 | [-.047, +.114] | 17% / 18% |
+| router_1 | +.0055 | [-.0005, +.0077] | +.073 | [-.005, +.107] | 7% / 6% |
+
+The router does not reliably beat the best fixed action. It closes about 5%
+of the gap to the oracle and its interval includes zero. The 1-rule router
+does slightly better (7%, interval just reaching zero), as Stage 4's
+stability check predicted: rules 2 to 5 add noise on unseen repositories.
+
+### Other budgets and metrics
+
+| metric | router vs fixed | router_1 vs fixed |
+|---|---|---|
+| nDCG@100 | -.0078 [-.0245, +.0159] | -.0001 [-.0068, +.0094] |
+| nDCG@500 | -.0031 [-.0191, +.0046] | +.0010 [-.0099, +.0046] |
+| line recall@300 | -.0008 [-.0075, +.0034] | +.0023 [+.0002, +.0064] |
+| SWE-bench file recall@300 (374 held-out Verified) | -.0125 [-.0360, -.0036] | -.0021 [-.0053, +.0048] |
+| SWE-bench file recall@300 (90 extra Verified) | -.0422 [-.1081, +.0417] | -.0278 [-.0932, +.0179] |
+
+- No gain at B = 100 or 500. The 1-rule router's line-recall gain at 300 is
+  the only interval above zero, and only just.
+- On SWE-bench file recall the full router is reliably worse than fusion. The
+  rules route issues to graph expansions, which cover fewer distinct files
+  than fusion (fixed expand_calls .639 vs fusion .708 on the 464 Verified
+  issues outside dev). The router optimises nDCG, which rewards finding more
+  core lines in fewer files, so it trades file coverage for line ranking.
+- On the 90 extra Verified issues, which no tuning or rule fitting saw, the
+  same pattern holds with wide intervals.
+
+### By fold, target file and cost
+
+- GapClosed by fold ranges from -.16 (matplotlib) to +.16 (ansible); django,
+  ansible and the small fold gain, matplotlib and qutebrowser lose.
+- When the issue names a repository file, both routers gain more (router
+  GapClosed +.13, router_1 .2123 vs fixed .1943) than when it does not (+.02).
+- Cost per issue at B = 300: fusion always makes one extra (dense) retrieval
+  call; the router makes 0.63 on average and visits 31 graph nodes. All
+  systems take milliseconds once indexes exist.
+
+### Rules
+
+The stable rule (top hit with many call edges and BM25/dense top-10 overlap
+<= 0.2, route to expand_calls) is chosen in all 8 folds. `heldout.md` lists
+it as two rows because each fold computes its own bin edges: "> 7" call edges
+in 7 folds and "> 6" in sympy's. Every other rule appears in at most 4 folds.
+
+### Verdict
+
+The proposal's target claim, that the router beats the best fixed action on
+held-out repositories, is not supported. What stands is the proposal's
+fallback: per-issue gains are large (the oracle is 40% above fusion) but the
+cheap post-seed features predict only a small part of them, the strongest
+being the graph degree of the top seed hit. One rule generalises and closes
+about 7% of the gap. That is a conditional, partly negative result, which the
+proposal anticipated.
