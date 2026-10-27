@@ -116,3 +116,12 @@ python -m acl.heldout                 # router per fold on held-out repos -> dat
 
 `acl.snapshot`, `acl.prepare`, `acl.dense`, `acl.phase_a` and `acl.features` take
 `--tasks PATH` to run on another task file. See [docs/stage5.md](docs/stage5.md).
+
+## Final report (Stage 6)
+
+```bash
+PYTHONPATH=src python reports/final/make_figures.py   # figures from data/results
+cd reports/final && pdflatex main && bibtex main && pdflatex main && pdflatex main
+```
+
+`python -m acl.tier2` runs the Tier 2 classifier router (results in docs/stage5.md).
