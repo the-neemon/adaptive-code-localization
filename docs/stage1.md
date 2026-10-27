@@ -177,6 +177,11 @@ which cost a night on 2026-10-09.
 
 ## Open questions for Stage 2
 
+Resolved later: edge direction was tuned on dev per edge group (Stage 3,
+"both" for calls and imports); the harness reports both the official and the
+clipped scorer (Stage 2); environment dumps stay in the query and became the
+`has_env_dump` router feature (Stage 3).
+
 - Expansion direction: follow edges outgoing only (callees, bases, imported
   names) or both directions (also callers, subclasses, importers)?
 - Scorer: official SWE-Explore lines vs clipped (see above).

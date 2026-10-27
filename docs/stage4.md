@@ -4,7 +4,8 @@ Status as of 2026-10-19: draft findings done (the proposal's checkpoint for
 this stage). Started a week early, during exam week, because Phase A finished
 on ada on 2026-10-19 (job 28702: all 6 actions x 500 tasks x 3 budgets, RRF
 k = 100 tuned on dev) and the analysis needs nothing else. No held-out
-repository has been scored by the router yet; that is Stage 5.
+repository had been scored by the router at that point; that is Stage 5
+(docs/stage5.md).
 
 All numbers are nDCG@300 (ours, docs/stage2.md) unless stated, and gains are
 the proposal's eq. 2: Delta(i, a) = Score(action a) - Score(stop). Intervals
@@ -146,6 +147,11 @@ the held-out gain to come mostly from rule 1. Full per-fold output:
 - Also at B = 100 and 500, and on recall and SWE-bench file-level recall.
 
 ## Open questions for the team
+
+Resolved before Stage 5 ran: MAX_RULES stayed at 5 for the main result, and
+the same router cut after its first rule was declared as a secondary analysis
+(docs/stage5.md). The Stage 5 result bore this out: the 1-rule router did
+slightly better on held-out repositories.
 
 - Rules 2 to 5 are unstable. Keeping MAX_RULES = 5 is what was decided; the
   alternative (only rules that recur across most training folds) would have

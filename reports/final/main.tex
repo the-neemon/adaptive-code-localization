@@ -49,9 +49,8 @@ calls, imports and inheritance to find it, but leave the decision of when to
 expand to the model's reasoning. We measure that decision directly. On the
 500 Python issues of SWE-Explore (15 repositories), we run six retrieval
 actions after a BM25 seed (stop, dense retrieval, BM25 and dense fusion and
-one-hop expansion along calls, imports or inheritance) under a fixed line budget. We record each action's gain over the seed for every issue. Gains are strongly issue-dependent. Graph expansion helps about 40\% of issues and hurts about 40\%. Choosing the best action per issue would score 40\% above the best fixed action. Cheap signals after the seed predict little of
-this. Only one of the five signals the proposal expected holds and only as a
-contrast. A rule-based router fitted by a fixed procedure and tested on
+one-hop expansion along calls, imports or inheritance) under a fixed line budget. We record each action's gain over the seed for every issue. Gains are strongly issue-dependent: graph expansion helps about 40\% of issues and hurts about 40\%, so choosing the best action per issue would score 40\% above the best fixed action. Cheap signals after the seed predict little of
+this. Of the five signals our proposal expected to matter, only one holds, as a contrast between hub and weakly connected top hits. A rule-based router fitted by a fixed procedure and tested on
 held-out repositories closes about 5\% of the gap to the per-issue oracle,
 with an interval that includes zero. Its single stable rule closes about 7\%. A classifier router does worse than the best fixed action. We also find
 that the released SWE-Explore scorer's nDCG differs from the paper's
@@ -78,8 +77,7 @@ from the function a traceback names might reach a faulty helper. When the
 issue already names the target file, the lexical seed may be right and
 expansion may only add noise. When the top seed hit is a hub, its neighbours
 may flood the budget. We asked two questions. Phase~A: under a fixed budget,
-what is each retrieval action worth over a BM25 seed, issue by issue and
-which cheap signals predict it? Phase~B: can those findings become an
+what is each retrieval action worth over a BM25 seed for each issue? Which cheap signals predict it? Phase~B: can those findings become an
 explicit router that picks one action per issue and beats the best fixed
 action on repositories it has never seen?
 
@@ -135,8 +133,7 @@ every addition displace something.
 \paragraph{Adaptive routing.} Adaptive-RAG~\citep{jeong2024adaptiverag}
 routes questions among retrieval strategies by predicted complexity.
 AIRCoder~\citep{shi2026aircoder} adapts retrieval for code completion, where
-the target location is known. SWE-Router~\citep{son2026swerouter} routes
-between agent models and Repository Memory~\citep{wang2026repomemory} adds
+the target location is known. SWE-Router~\citep{son2026swerouter} routes between agent models. Repository Memory~\citep{wang2026repomemory} adds
 history tools to LocAgent but leaves their use to the agent. None routes
 among localization mechanisms with an explicit policy.
 
@@ -226,8 +223,7 @@ degree of the top seed hit (in total and per edge group), the mean degree of
 the top-10, the BM25/dense top-10 overlap and whether the issue comes from
 SWE-bench Pro. No feature reads the patch or the ground truth.
 
-The Tier~1 router is an ordered rule list produced by a fixed procedure,
-not written by hand. Its default is the best fixed action on the training
+Unlike the hand-written rules our proposal described, the Tier~1 router is an ordered rule list produced by a fixed procedure. Its default is the best fixed action on the training
 issues. Candidate conditions are every feature bin (booleans by value,
 numbers in thirds) and every pair of bins. Rules are added greedily: each
 takes the condition and action with the largest total gain over the default
@@ -342,8 +338,7 @@ action except \action{expand(inherit)} helps 38 to 52\% of issues and hurts
 another 35 to 48\%. The per-issue oracle scores 0.258 against fusion's
 0.184, 40\% higher. The action it picks is spread evenly: \action{stop}
 17\%, \action{expand(imports)} 20\%, \action{expand(calls)} 19\%,
-\action{dense} 22\% and \action{fusion} 21\%. No single action dominates.
-The picture is the same outside the dev repositories (444 issues: fusion
+\action{dense} 22\% and \action{fusion} 21\%. The picture is the same outside the dev repositories (444 issues: fusion
 0.187, oracle 0.262). Gains also differ in sign between repositories:
 \action{expand(calls)} gains 0.032 on matplotlib and loses 0.046 on
 scikit-learn.
@@ -431,7 +426,7 @@ oracle that a router closes, computed on means.
 picks fusion as the default and five rules. The first routes issues whose
 top hit has more than 7 call edges and whose BM25 and dense top-10 overlap is
 at most 0.2 to \action{expand(calls)}. On its 64 issues the seed scores
-0.202, \action{expand(calls)} 0.213, fusion 0.161 and dense 0.121: dense is wrong and fusion inherits its mistakes. The right move is to keep the seed and follow its call edges. This reverses our expectation that disagreement
+0.202, \action{expand(calls)} 0.213, fusion 0.161 and dense 0.121: dense is wrong and fusion inherits its mistakes. The better choice is to keep the seed and follow its call edges. This reverses our expectation that disagreement
 calls for fusion. Fit on each fold's training set, this rule is chosen in all
 8 folds (with ``more than 6'' call edges in sympy's). Every other rule
 appears in at most 4.
@@ -482,8 +477,7 @@ first rule it does slightly better, closing about 7\%, with an interval just
 reaching zero. This is what the fold-stability check predicted: rules 2 to 5
 add noise on unseen repositories. The Tier~2 classifier does worse than the
 fixed action and reliably worse than the one-rule router ($-0.013$,
-$[-0.026, -0.006]$). Dev chose gradient-boosted trees in every fold, mostly
-of depth 3 and the classifier then moved 78\% of issues away from fusion.
+$[-0.026, -0.006]$). Dev chose gradient-boosted trees in every fold, mostly of depth 3. The classifier then moved 78\% of issues away from fusion.
 With 56 dev issues, the most flexible setting wins on dev and overfits the
 held-out repositories. It picks the oracle's action on 24\% of issues,
 against 21\% for always choosing fusion.
@@ -512,10 +506,7 @@ fewer distinct files: fixed \action{expand(calls)} recovers 0.639.
 \section{Discussion and Limitations}
 %======================================================================
 
-\paragraph{What the results say.} The premise holds strongly: the right
-action depends on the issue and the gap between the best fixed action and
-the per-issue oracle is 40\%. The hope that cheap post-seed signals could
-capture much of it does not. One rule transfers across repositories and
+\paragraph{What the results say.} The premise holds: the right action depends on the issue. The gap between the best fixed action and the per-issue oracle is 40\%. Cheap post-seed signals capture little of that gap. One rule transfers across repositories and
 closes about 7\% of the gap. A learned classifier over the same features
 finds less, because it fits patterns that do not transfer. This is the partly negative outcome our proposal anticipated. The Phase~A table and the degree finding are results on their own.
 
@@ -528,9 +519,7 @@ finds less, because it fits patterns that do not transfer. This is the partly ne
   rewards broad coverage, which may favour fusion over targeted expansion.
   We do not measure downstream repair.
   \item Only Python, one frozen dense model and depth-1 expansion.
-  \item The Python filter used the files agents edited, not the developer
-  patch and wrongly dropped 41 Verified issues. They are covered by the
-  secondary benchmark but not by Phase~A.
+  \item The Python filter used the files agents edited instead of the developer patch. It wrongly dropped 41 Verified issues, which the secondary benchmark covers but Phase~A does not.
   \item Tier~2 was designed after Tier~1's result was known. Its settings
   were fixed before its own result.
   \item Two dev issues (openlibrary) have slightly different BM25 scores
@@ -543,7 +532,7 @@ finds less, because it fits patterns that do not transfer. This is the partly ne
 
 We measured, under a fixed line budget and outside any agent's reasoning,
 what six retrieval actions are worth for repository-level issue
-localization. Graph expansion is neither good nor bad on average. It helps and hurts about equally many issues. Picking per issue would beat the best fixed action by 40\%. Cheap signals predict little of this: the graph
+localization. On average graph expansion barely changes the score, because it helps and hurts about equally many issues, yet picking the best action per issue would beat the best fixed action by 40\%. Cheap signals predict little of this: the graph
 degree of the top seed hit is the strongest and one rule built on it
 generalizes to unseen repositories. Rule-based and learned routers close
 at most a small part of the gap, so a useful router will need richer signals

@@ -31,28 +31,6 @@ plt.rcParams.update({
 })
 
 
-def fig_fixed_vs_oracle(d: analysis.Data) -> None:
-    acts = d.actions
-    names = [LABEL[a] for a in acts] + ["per-issue oracle"]
-    vals = [d.score[a] for a in acts] + [np.max(np.stack([d.score[a] for a in acts]), axis=0)]
-    means = [v.mean() for v in vals]
-    cis = [analysis.ci(v, d.repo) for v in vals]
-    fig, ax = plt.subplots(figsize=(3.3, 2.1))
-    y = np.arange(len(names))[::-1]
-    colors = [BLUE] * len(acts) + [RED]
-    ax.barh(y, means, height=0.62, color=colors, zorder=2)
-    for yi, m, (lo, hi) in zip(y, means, cis):
-        ax.plot([lo, hi], [yi, yi], color=INK, lw=0.8, zorder=3)
-        ax.text(hi + 0.006, yi, f"{m:.3f}", va="center", fontsize=7, color=INK)
-    ax.set_yticks(y, names)
-    ax.set_xlabel("mean nDCG@300, 500 issues (95% repo-bootstrap CI)")
-    ax.set_xlim(0, 0.42)
-    ax.xaxis.grid(True, color=GRID, lw=0.5, zorder=0)
-    ax.tick_params(axis="y", length=0)
-    fig.tight_layout(pad=0.3)
-    fig.savefig(OUT / "fixed_vs_oracle.pdf")
-
-
 def fig_helps_hurts(d: analysis.Data) -> None:
     acts = [a for a in d.actions if a != "stop"]
     helps = [analysis.helps_hurts(d.delta(a))[0] * 100 for a in acts]
@@ -138,7 +116,6 @@ def fig_heldout(d: analysis.Data) -> None:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     d = analysis.load(300, "ndcg")
-    fig_fixed_vs_oracle(d)
     fig_helps_hurts(d)
     fig_degree(d)
     fig_heldout(d)

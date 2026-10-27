@@ -120,8 +120,8 @@ Also writes the blank lines of ground-truth .py files.
 ## Fusion (`acl.actions`)
 
 Reciprocal-rank fusion of the full BM25 and dense rankings,
-score(c) = sum of 1 / (k + rank), with k = 60 (Cormack et al., 2009) for now;
-k is to be tuned on dev only. Every action ranks all chunks and
+score(c) = sum of 1 / (k + rank), with k = 60 (Cormack et al., 2009) in this
+stage. (Stage 3 tuned it on dev to k = 100, which every later result uses.) Every action ranks all chunks and
 `fill_budget` cuts to B, so no action can win by returning more code. The
 `expand(e)` actions plug into the same `ACTIONS` registry in Stage 3.
 
@@ -202,6 +202,10 @@ The mean `recall_cap` at B = 300 is 0.395 (stage1.md: 0.390 before clipping).
 - Locally the env is `mtsbench` (polars, pytest and einops added).
 
 ## Open items for Stage 3
+
+All resolved in Stage 3 (docs/stage3.md): expand(e) direction and lambda and
+the RRF k were tuned on dev, environment dumps became a feature, and the
+features and the Phase A batch were done.
 
 - `expand(e)` actions: edge direction (outgoing only, or callers and
   subclasses too) and the decay lambda (tune on dev).

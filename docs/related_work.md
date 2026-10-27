@@ -1,5 +1,9 @@
 # Related work (draft, Stage 2)
 
+Superseded by the Related Work section of the final report
+(reports/final/main.tex), whose references were checked against primary
+sources in Stage 6. Kept as the Stage 2 record.
+
 Draft of the report's Related Work section. It extends the proposal's section
 with the evaluation benchmark details we now rely on, the dense retriever we
 chose, and a strand the proposal did not cover: selective query expansion and

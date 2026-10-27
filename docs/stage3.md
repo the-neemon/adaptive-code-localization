@@ -1,11 +1,11 @@
 # Stage 3: graph expansion, dev tuning, router features, Phase A launch
 
-Status as of 2026-10-19. Done locally: the three `expand(e)` actions, their
-tuning on dev, the post-seed features, and a Phase A run of every BM25-only
-action on all 500 tasks. Waiting for ada: tuning the fusion k (needs dense
-scores) and the full Phase A batch with all six actions
-(`scripts/ada_phase_a.sbatch`). The proposal's launch date (Oct 18) slipped by
-at least a day.
+Status as of 2026-10-27: done. The three `expand(e)` actions, their tuning on
+dev, the post-seed features and a local Phase A run of every BM25-only action
+were finished on 2026-10-19. The full Phase A batch with all six actions
+(`scripts/ada_phase_a.sbatch`) ran on ada on 2026-10-19 (job 28702), one day
+after the proposal's launch date, and tuned the fusion constant to k = 100 on
+dev. Its analysis is in docs/stage4.md.
 
 ## Graph expansion (`acl.actions.expand`)
 
