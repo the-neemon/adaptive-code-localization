@@ -169,5 +169,42 @@ Its settings and selection rule above do not change after its own result.
 
 ### Tier 2 results
 
-Pending: needs the study-set `data/results/phase_a.jsonl` and
-`features.jsonl` from ada.
+Run locally on 2026-10-27 from the ada Phase A files (job 28702), about 90 s.
+Full output: `data/results/tier2.md`. With the same files the laptop
+reproduces Stage 5's `heldout.md` byte for byte, so Tier 2 and Tier 1 are
+scored on identical data.
+
+| nDCG@300, 444 held-out issues | mean | gain vs fixed | 95% CI | GapClosed |
+|---|---|---|---|---|
+| fixed (fusion) | .1872 | | | |
+| router (Tier 1) | .1908 | +.0035 | [-.0041, +.0086] | +.047 |
+| router_1 (Tier 1, first rule) | .1927 | +.0055 | [-.0005, +.0077] | +.073 |
+| tier2 (classifier) | .1798 | -.0074 | [-.0255, +.0006] | -.099 |
+
+- Tier 2 is worse than the fixed action at every budget (nDCG@100 -.0130,
+  @500 -.0103 with an interval below zero) and reliably worse than router_1
+  at B = 300 (-.0129 [-.0261, -.0058]).
+- It moves 78% of issues away from fusion and helps 32% of issues while
+  hurting 39%. It picks the oracle's action on 24% of issues; always picking
+  fusion matches it on 21%.
+- On SWE-bench file recall it loses .054 [-.103, -.043] against fusion, much
+  more than Tier 1 (-.013), because it routes more issues to graph expansion.
+- Dev picked gradient-boosted trees in every fold at B = 300, mostly depth 3.
+  With 56 dev issues, the most flexible setting wins on dev and then
+  overfits the held-out repositories.
+
+Reading: a learned classifier over the same 16 features does not find more
+signal than the rule list. It finds less, because it spends its capacity on
+patterns that do not transfer between repositories. This supports the
+Stage 5 verdict: the features carry little transferable information about
+which action wins, and the one rule that does transfer is best used alone.
+
+### Data note
+
+The ada Phase A files and an independent laptop run agree exactly on 5,982
+of 6,000 BM25 and graph-expansion rows. The other 18 are two openlibrary
+issues (dev split), whose BM25 scores differ slightly between the two
+machines (nDCG@300 by up to .022), presumably because those two snapshots were
+built a little differently. Feature values otherwise differ only by float32
+rounding. No held-out issue is affected. All reported numbers use the ada
+files.
