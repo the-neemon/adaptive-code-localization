@@ -88,14 +88,15 @@ def gap_closed(router_: float, fixed: float, oracle: float) -> float:
     return (router_ - fixed) / (oracle - fixed) if oracle > fixed else float("nan")
 
 
-def evaluate(d: Data, held: np.ndarray, choice: dict[str, np.ndarray]) -> dict:
+def evaluate(d: Data, held: np.ndarray, choice: dict[str, np.ndarray],
+             systems: tuple[str, ...] = ("router", "router_1")) -> dict:
     s = {k: scores_of(d, c, held) for k, c in choice.items()}
     idx = np.flatnonzero(held)
     s["oracle"] = np.array([max(d.score[a][i] for a in d.actions) for i in idx])
     repos = d.repo[held]
     b = boot_pooled(s, repos)
     out = {"n": int(held.sum()), "mean": {k: float(v.mean()) for k, v in s.items()}}
-    for k in ("router", "router_1"):
+    for k in systems:
         diff = s[k] - s["fixed"]
         out[k] = {
             "gain_vs_fixed": float(diff.mean()),

@@ -3,7 +3,7 @@ name = "acl"
 version = "0.1.0"
 description = "Measurement-driven, issue-adaptive retrieval routing for repository-level code localization"
 requires-python = ">=3.10"
-dependencies = ["numpy", "scipy", "polars", "networkx"]
+dependencies = ["numpy", "scipy", "polars", "networkx", "scikit-learn"]
 
 [project.optional-dependencies]
 dev = ["pytest"]

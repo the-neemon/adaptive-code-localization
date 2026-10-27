@@ -144,3 +144,30 @@ cheap post-seed features predict only a small part of them, the strongest
 being the graph degree of the top seed hit. One rule generalises and closes
 about 7% of the gap. That is a conditional, partly negative result, which the
 proposal anticipated.
+
+## Tier 2: a classifier router (stretch goal)
+
+Pursued because Tier 1 was evaluated before November 1, as the proposal
+requires. Protocol fixed on 2026-10-27, after the Tier 1 results above and
+before any Tier 2 result on the real data (`acl.tier2`):
+
+- Same 16 post-seed features as Tier 1. Label per training issue: its best
+  action on nDCG at the budget, ties broken toward the cheaper action.
+- Grid, simplest first: logistic regression on standardised features with
+  C in {0.01, 0.1, 1, 10}, then gradient-boosted trees of depth 1 to 3 with 50
+  or 100 trees (learning rate 0.1, random_state 16).
+- Tuning on dev only. For each held-out fold: fit every setting on the
+  issues outside the fold and outside dev, keep the one with the best mean
+  nDCG on dev (ties to the simpler one), refit it on every issue outside the
+  fold and route the fold. Unit tests check that a planted signal is learned
+  and that corrupting a fold's own scores leaves its routing unchanged.
+- Reported on the same 444 held-out issues and budgets as Tier 1, next to
+  router and router_1, with the paired gain over router_1.
+
+Tier 2 is designed after seeing Tier 1's result, which the write-up must say.
+Its settings and selection rule above do not change after its own result.
+
+### Tier 2 results
+
+Pending: needs the study-set `data/results/phase_a.jsonl` and
+`features.jsonl` from ada.
