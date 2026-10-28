@@ -20,6 +20,16 @@
 {\normalsize Midway report, 31 October 2026}\\[2pt]
 {\small Naman Singhal (2024114013) \quad Yash More (2024114004) \quad Aaditya Bhatia (2023114012)}\\[6pt]}]
 
+\section{Introduction}
+To fix an issue, a coding agent must find the relevant code
+within a limited context budget. Keyword (BM25) or embedding search is cheap but misses code linked only through calls,
+imports or inheritance, while graph-exploring agents decide
+implicitly when to follow such links. We ask when graph
+expansion helps. Phase A measures, under a fixed line budget,
+how much each retrieval action improves on a BM25 seed for
+each issue. Phase B turns this into an interpretable router that
+picks one action per issue.
+
 \section{Where we are}
 The proposal split the project into 7 stages. The first 4 are done:
 (1) data, repository snapshots, code chunks, the BM25 seed and the code
