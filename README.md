@@ -125,10 +125,3 @@ cd reports/final && pdflatex main && bibtex main && pdflatex main && pdflatex ma
 ```
 
 `python -m acl.tier2` runs the Tier 2 classifier router (results in docs/stage5.md).
-
-## Slides and video
-
-`reports/slides/slides.tex` (IIIT-H dark Beamer theme, GPL-3) builds the viva deck with
-`pdflatex slides` (twice). `PYTHONPATH=src python reports/slides/make_slide_figures.py`
-redraws its figures for the dark background. `reports/slides/video_script.md` is the
-two-speaker script for the video.
