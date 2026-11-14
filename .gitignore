@@ -5,6 +5,7 @@ __pycache__/
 # Benchmark data is CC BY-NC-ND and mirrors/outputs are large: never commit them.
 data/
 proposal.pdf# LaTeX build files
+reports/slides
 reports/**/*.aux
 reports/**/*.log
 reports/**/*.bbl
