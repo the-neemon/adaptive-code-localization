@@ -10,3 +10,6 @@ reports/**/*.log
 reports/**/*.bbl
 reports/**/*.blg
 reports/**/*.out
+reports/**/*.nav
+reports/**/*.snm
+reports/**/*.toc
