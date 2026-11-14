@@ -192,4 +192,4 @@ and one hop of expansion.
 
 ## Slide 17: Thank you (Yash, 0:10)
 
-Thank you for watching. The code and the final report are in our repository.
+Thank you. The code and the final report are in our repository.
