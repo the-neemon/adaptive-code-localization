@@ -52,7 +52,7 @@ actions after a BM25 seed (stop, dense retrieval, BM25 and dense fusion and
 one-hop expansion along calls, imports or inheritance) under a fixed line budget. We record each action's gain over the seed for every issue. Gains are strongly issue-dependent: graph expansion helps about 40\% of issues and hurts about 40\%, so choosing the best action per issue would score 40\% above the best fixed action. Cheap signals after the seed predict little of
 this. Of the five signals our proposal expected to matter, only one holds, as a contrast between hub and weakly connected top hits. A rule-based router fitted by a fixed procedure and tested on
 held-out repositories closes about 5\% of the gap to the per-issue oracle,
-with an interval that includes zero. Its single stable rule closes about 7\%. A classifier router does worse than the best fixed action. We also find
+with an interval that includes zero. Its single stable rule closes about 7\%. A classifier router does not beat the best fixed action and is reliably worse than the one-rule router. We also find
 that the released SWE-Explore scorer's nDCG differs from the paper's
 definition in a way that rewards a single early hit.
 \end{abstract}
@@ -241,7 +241,7 @@ broken toward the cheaper action.
 
 \paragraph{Data.} SWE-Explore~\citep{zhang2026sweexplore} has 848 issues
 with ground truth built from the code that successful agent trajectories
-read: core regions (read by every trajectory) and optional ones. Its records
+read: core regions (the code the successful trajectories agree on) and optional ones (read by only some). Its records
 carry no issue text or commit, so we join them with SWE-bench
 Verified~\citep{jimenez2024swebench, openai2024verified} and SWE-bench Pro.
 An issue counts as Python if every file the agents edited is \texttt{.py}.
@@ -480,9 +480,9 @@ fixed action and reliably worse than the one-rule router ($-0.013$,
 $[-0.026, -0.006]$). Dev chose gradient-boosted trees in every fold, mostly of depth 3. The classifier then moved 78\% of issues away from fusion.
 With 56 dev issues, the most flexible setting wins on dev and overfits the
 held-out repositories. It picks the oracle's action on 24\% of issues,
-against 21\% for always choosing fusion.
+against 20\% for always choosing fusion.
 
-At $B=100$ and 500 no router gains. GapClosed by fold ranges from $-0.16$
+At $B=100$ and 500 no router gains reliably. GapClosed by fold ranges from $-0.16$
 (matplotlib) to $+0.16$ (ansible). When the issue names a repository file,
 the Tier~1 router closes more of the gap ($+0.13$) than when it does not
 ($+0.02$). In cost, fusion always makes one extra (dense) retrieval call,
