@@ -1,0 +1,79 @@
+== rules fit on all 500 issues
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=64, gain vs default +0.0527, lower bound +0.0445)
+  2. if names_py_path AND 4 < top_degree <= 10 -> expand_imports  (n=46, gain vs default +0.0449, lower bound +0.0059)
+  3. if seed_files <= 5 AND top_degree > 10 -> expand_inherit  (n=62, gain vs default +0.0260, lower bound +0.0004)
+  4. if not is_pro AND top_degree_inherit > 0 -> expand_imports  (n=33, gain vs default +0.0205, lower bound +0.0061)
+  5. if 0.15 < bm25_topk_margin <= 0.25 AND bm25_dense_overlap > 0.40 -> dense  (n=22, gain vs default +0.0278, lower bound +0.0034)
+  on its own training issues: router 0.2011 vs default 0.1844 (in-sample, optimistic)
+
+== fold ansible: fit on the other 460 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=59, gain vs default +0.0535, lower bound +0.0448)
+  2. if seed_files <= 5 AND 1 < top_degree_calls <= 7 -> expand_calls  (n=80, gain vs default +0.0236, lower bound +0.0043)
+  3. if bm25_topk_margin <= 0.15 AND topk_degree_mean <= 6.90 -> expand_calls  (n=48, gain vs default +0.0317, lower bound +0.0050)
+  4. if 0.04 < bm25_margin <= 0.10 AND top_degree > 9 -> expand_inherit  (n=36, gain vs default +0.0265, lower bound +0.0034)
+  on its own training issues: router 0.1901 vs default 0.1737 (in-sample, optimistic)
+
+== fold django: fit on the other 293 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=43, gain vs default +0.0703, lower bound +0.0483)
+  2. if names_py_path AND 4 < top_degree <= 11 -> expand_calls  (n=26, gain vs default +0.0457, lower bound +0.0152)
+  3. if 0.04 < bm25_margin <= 0.11 AND top_degree > 11 -> stop  (n=21, gain vs default +0.0446, lower bound +0.0068)
+  4. if is_pro AND seed_files <= 5 -> expand_imports  (n=30, gain vs default +0.0248, lower bound +0.0084)
+  on its own training issues: router 0.2527 vs default 0.2326 (in-sample, optimistic)
+
+== fold matplotlib: fit on the other 471 issues (held-out issues not scored)
+default: fusion
+  1. if issue_tokens > 178 AND top_degree_calls > 7 -> stop  (n=52, gain vs default +0.0644, lower bound +0.0399)
+  2. if names_py_path AND 4 < top_degree <= 10 -> expand_imports  (n=41, gain vs default +0.0615, lower bound +0.0321)
+  3. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=38, gain vs default +0.0469, lower bound +0.0216)
+  4. if bm25_topk_margin > 0.25 AND bm25_dense_overlap > 0.40 -> expand_calls  (n=27, gain vs default +0.0268, lower bound +0.0062)
+  5. if top_degree_calls > 7 AND top_degree_imports <= 1 -> dense  (n=34, gain vs default +0.0279, lower bound +0.0060)
+  on its own training issues: router 0.2032 vs default 0.1834 (in-sample, optimistic)
+
+== fold qutebrowser: fit on the other 470 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=63, gain vs default +0.0517, lower bound +0.0436)
+  2. if names_py_path AND 4 < top_degree <= 10 -> expand_imports  (n=46, gain vs default +0.0449, lower bound +0.0059)
+  3. if seed_files <= 5 AND top_degree_calls > 7 -> expand_inherit  (n=55, gain vs default +0.0227, lower bound +0.0007)
+  4. if issue_tokens <= 89 AND seed_files <= 5 -> expand_calls  (n=41, gain vs default +0.0358, lower bound +0.0171)
+  5. if not is_pro AND top_degree_inherit > 0 -> expand_imports  (n=32, gain vs default +0.0202, lower bound +0.0051)
+  on its own training issues: router 0.2011 vs default 0.1826 (in-sample, optimistic)
+
+== fold scikit-learn: fit on the other 469 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=62, gain vs default +0.0524, lower bound +0.0439)
+  2. if seed_files <= 5 AND 1 < top_degree_calls <= 7 -> expand_calls  (n=75, gain vs default +0.0199, lower bound +0.0013)
+  3. if bm25_topk_margin <= 0.15 AND topk_degree_mean <= 6.80 -> expand_calls  (n=48, gain vs default +0.0294, lower bound +0.0125)
+  4. if 0.15 < bm25_topk_margin <= 0.25 AND top_degree_imports > 1 -> expand_imports  (n=36, gain vs default +0.0362, lower bound +0.0120)
+  on its own training issues: router 0.1868 vs default 0.1709 (in-sample, optimistic)
+
+== fold small: fit on the other 471 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=63, gain vs default +0.0518, lower bound +0.0439)
+  2. if seed_files <= 5 AND 1 < top_degree_calls <= 7 -> expand_calls  (n=76, gain vs default +0.0272, lower bound +0.0090)
+  3. if seed_files <= 5 AND top_degree > 10 -> expand_inherit  (n=61, gain vs default +0.0262, lower bound +0.0004)
+  4. if bm25_topk_margin <= 0.15 AND topk_degree_mean <= 7.00 -> expand_calls  (n=46, gain vs default +0.0156, lower bound +0.0037)
+  5. if not is_pro AND top_degree_inherit > 0 -> expand_imports  (n=20, gain vs default +0.0194, lower bound +0.0075)
+  on its own training issues: router 0.2016 vs default 0.1845 (in-sample, optimistic)
+
+== fold sphinx: fit on the other 488 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 7 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=64, gain vs default +0.0527, lower bound +0.0445)
+  2. if seed_files <= 5 AND 1 < top_degree_calls <= 7 -> expand_calls  (n=83, gain vs default +0.0237, lower bound +0.0053)
+  3. if seed_files <= 5 AND top_degree > 10 -> expand_inherit  (n=61, gain vs default +0.0262, lower bound +0.0004)
+  4. if bm25_topk_margin <= 0.15 AND 0.20 < bm25_dense_overlap <= 0.40 -> expand_calls  (n=28, gain vs default +0.0326, lower bound +0.0186)
+  5. if not is_pro AND top_degree_inherit > 0 -> expand_imports  (n=25, gain vs default +0.0213, lower bound +0.0023)
+  on its own training issues: router 0.2024 vs default 0.1852 (in-sample, optimistic)
+
+== fold sympy: fit on the other 434 issues (held-out issues not scored)
+default: fusion
+  1. if top_degree_calls > 6 AND bm25_dense_overlap <= 0.20 -> expand_calls  (n=55, gain vs default +0.0697, lower bound +0.0539)
+  2. if 0.04 < bm25_margin <= 0.10 AND top_degree > 9 -> expand_imports  (n=29, gain vs default +0.0665, lower bound +0.0309)
+  3. if 2 < n_known_identifiers <= 6 AND bm25_margin <= 0.04 -> expand_imports  (n=40, gain vs default +0.0284, lower bound +0.0101)
+  4. if has_traceback AND n_known_identifiers > 6 -> expand_calls  (n=26, gain vs default +0.0347, lower bound +0.0086)
+  5. if is_pro AND seed_files <= 5 -> expand_imports  (n=29, gain vs default +0.0188, lower bound +0.0029)
+  on its own training issues: router 0.1958 vs default 0.1766 (in-sample, optimistic)
+
+-> data/results/router_rules.json
