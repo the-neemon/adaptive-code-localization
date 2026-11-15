@@ -1,7 +1,7 @@
 # Related work (draft, Stage 2)
 
 Superseded by the Related Work section of the final report
-(reports/final/main.tex), whose references were checked against primary
+(reports/final/main.pdf; LaTeX source in git history), whose references were checked against primary
 sources in Stage 6. Kept as the Stage 2 record.
 
 Draft of the report's Related Work section. It extends the proposal's section
